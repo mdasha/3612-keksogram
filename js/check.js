@@ -1,7 +1,7 @@
 function getMessage(a, b) {
 	var message;
 	if (a === true)   {
-		var message = "Переданное GIF-изображение анимировано и содержит " + b + " кадров";
+		message = "Переданное GIF-изображение анимировано и содержит " + b + " кадров";
 		}
 	else if (a === false) {
 		message = "Переданное GIF-изображение не анимировано";
