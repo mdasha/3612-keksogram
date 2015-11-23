@@ -72,7 +72,37 @@
    * @return {boolean}
    */
   function resizeFormIsValid() {
-    return true;
+	var resizeForm = document.forms['upload-resize'];
+    var leftPosition = resizeForm['resize-x'];
+	var topPosition = resizeForm['resize-y'];
+	var Side = resizeForm['resize-size'];
+	maxWidth = 0;
+	maxHeight = 0;
+	
+	function setMaxWidth (leftPositions,Sides) {
+	var maxWidth = (parseInt(leftPositions, 10) + parseInt(Sides, 10));
+	return maxWidth;
+	}
+	
+	function setMaxHeight (topPositions,Sides) {
+	var maxHeight = (parseInt(topPositions, 10) + parseInt(Sides, 10));
+	return maxHeight;
+	}
+	
+	
+	leftPosition.onchange = function () {
+	
+		if (setMaxWidth(leftPosition.value, Side.value) < currentResizer._image.naturalWidth)  {
+			document.getElementById('resize-fwd').disabled = false;
+			return true;
+		}
+		
+		else {
+			document.getElementById('resize-fwd').disabled = true;
+			return false;
+		}
+	}
+	
   }
 
   /**
