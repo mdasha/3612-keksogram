@@ -120,34 +120,22 @@
           this._resizeConstraint.side - this._ctx.lineWidth / 2);
 		  
 	  // Отрисовка черного слоя с прозрачностью 80% вокруг желтой рамки, рисующей ограничение
-	  this._ctx.globalAlpha = 0.8;
 	  this._ctx.fillStyle = "Black";
-		  
-	  //Левая часть черного слоя
-	  this._ctx.fillRect(
-		   -this._image.naturalWidth / 2, 
-		   -this._image.naturalHeight / 2, 
-		   (this._image.naturalWidth - this._resizeConstraint.side) / 2 - this._ctx.lineWidth, 
-		   this._image.naturalHeight);
-	  //Верхняя часть черного слоя
-	  this._ctx.fillRect(
-		   (-this._resizeConstraint.side / 2) - this._ctx.lineWidth, 
-		   -this._image.naturalHeight / 2, 
-		   this._image.naturalWidth, 
-		   (this._image.naturalHeight - this._resizeConstraint.side) / 2 - this._ctx.lineWidth);
-	  //Правая часть черного слоя
-	  this._ctx.fillRect(
-		   (this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2),
-		   -(this._resizeConstraint.side / 2 + this._ctx.lineWidth), 
-		   this._image.naturalWidth, 
-		   this._resizeConstraint.side + this._ctx.lineWidth / 2);
-	  //Нижняя часть черного слоя
-	  this._ctx.fillRect(
-		   (-this._resizeConstraint.side / 2) - this._ctx.lineWidth, 
-		   this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2, 
-		   this._image.naturalWidth, 
-		   this._image.naturalHeight);
-		  
+	  this._ctx.globalAlpha = 0.8;
+	  this._ctx.beginPath();
+	  this._ctx.moveTo(-this._container.width, -this._container.height);
+	  this._ctx.lineTo(this._container.width, -this._container.height);
+	  this._ctx.lineTo(this._container.width, this._container.height);
+	  this._ctx.lineTo(-this._container.width, this._container.height);
+	  this._ctx.lineTo(-this._container.width, -this._container.height);
+	  this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,(-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2);
+	  this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2, (this._resizeConstraint.side - this._ctx.lineWidth) / 2);
+	  this._ctx.lineTo((this._resizeConstraint.side - this._ctx.lineWidth) / 2, (this._resizeConstraint.side - this._ctx.lineWidth) / 2);
+	  this._ctx.lineTo((this._resizeConstraint.side - this._ctx.lineWidth) / 2, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2);
+	  this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,(-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2);
+	  this._ctx.closePath();
+	  this._ctx.fill();
+	  
 	  // Над прямоугольником выводим размеры кадрируемого изображения
 	   this._ctx.fillStyle = "White";
 	   this._ctx.font = "16px Arial ";
