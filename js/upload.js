@@ -40,7 +40,6 @@
    * @type {Resizer}
    */
   var currentResizer;
-
   /**
    * Удаляет текущий объект {@link Resizer}, чтобы создать новый с другим
    * изображением.
@@ -71,38 +70,102 @@
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
+
+  /* Расчет максимально возможной ширины изображения*/
+  function setMaxWidth ( leftPositions , Sides ) {
+    var maxWidth = 0;
+    maxWidth = parseInt( leftPositions , 10 ) + parseInt( Sides , 10 );
+    return maxWidth;
+  }
+
+  /* Расчет максимально возможной высоты изображения */
+  function setMaxHeight ( topPositions , Sides ) {
+    var maxHeight = 0;
+    maxHeight = parseInt( topPositions , 10 ) + parseInt( Sides , 10 );
+    return maxHeight;
+  }
+
+  var resizeForm = document.forms['upload-resize'];
+
+
+  var leftPosition
+  leftPosition = resizeForm['resize-x'];
+
+  /*Проверка, заполнено ли поле LeftPosition и его обнуление, если оно не заполнено*/
+  if (leftPosition.value === "") {
+    leftPosition.value = 0;
+  }
+
+  var topPosition;
+  topPosition = resizeForm['resize-y'];
+
+  /* Проверка заполнено ли поле topPosition и его обнуление, если оно не заполнено*/
+  if (topPosition.value === "") {
+    topPosition.value = 0;
+  }
+
+  var Side;
+  Side = resizeForm['resize-size'];
+
+  /* Проверка, заполнено ли поле Side и его обнуление, если оно не заполнено*/
+  if (Side.value === "") {
+   Side.value = 0;
+  }
+  /*Ширина обрезаемой картинки*/
+  var PicWidth = setMaxWidth ( leftPosition.value , Side.value );
+
+  /*Высота обрезаемой картинки*/
+  var PicHeight = setMaxHeight ( topPosition.value , Side.value );
+
+/* Отливливаем значение поля слева+сторона и слева+сторона при изменении поля сторона*/
+  Side.oninput = function() {
+    if (setMaxWidth ( leftPosition.value , Side.value ) > currentResizer._image.naturalWidth) {
+      document.getElementById('resize-fwd').disabled = true;
+    }
+    else {
+      if (setMaxHeight( topPosition.value , Side.value) > currentResizer._image.naturalHeight) {
+        document.getElementById( 'resize-fwd' ).disabled = true;
+      }
+      else {
+        document.getElementById( 'resize-fwd' ).disabled = false;
+      }
+    }
+    }
+
+  /* Отливливаем значение поля слева+сторона и слева+сторона при изменении поля слева*/
+  leftPosition.oninput = function () {
+    if (setMaxWidth( leftPosition.value , Side.value ) > currentResizer._image.naturalWidth) {
+      document.getElementById( 'resize-fwd' ).disabled = true;
+    }
+
+    else {
+      if (setMaxHeight( topPosition.value , Side.value ) > currentResizer._image.naturalHeight) {
+        document.getElementById( 'resize-fwd' ).disabled = true;
+      }
+      else {
+        document.getElementById( 'resize-fwd' ).disabled = false;
+      }
+    }
+  }
+
+  /* Отливливаем значение поля сверху+сторона и слева+сторона при изменении поля слева*/
+  topPosition.oninput = function () {
+    if (setMaxHeight( topPosition.value , Side.value ) > currentResizer._image.naturalHeight) {
+      document.getElementById( 'resize-fwd' ).disabled = true;
+    }
+    else {
+      if (setMaxWidth( leftPosition.value , Side.value ) > currentResizer._image.naturalWidth) {
+        document.getElementById( 'resize-fwd' ).disabled = true;
+      }
+      else {
+        document.getElementById( 'resize-fwd' ).disabled = false;
+      }
+    }
+  }
+
+
   function resizeFormIsValid() {
-	var resizeForm = document.forms['upload-resize'];
-    var leftPosition = resizeForm['resize-x'];
-	var topPosition = resizeForm['resize-y'];
-	var Side = resizeForm['resize-size'];
-	maxWidth = 0;
-	maxHeight = 0;
-	
-	function setMaxWidth (leftPositions,Sides) {
-	var maxWidth = (parseInt(leftPositions, 10) + parseInt(Sides, 10));
-	return maxWidth;
-	}
-	
-	function setMaxHeight (topPositions,Sides) {
-	var maxHeight = (parseInt(topPositions, 10) + parseInt(Sides, 10));
-	return maxHeight;
-	}
-	
-	
-	leftPosition.onchange = function () {
-	
-		if (setMaxWidth(leftPosition.value, Side.value) < currentResizer._image.naturalWidth)  {
-			document.getElementById('resize-fwd').disabled = false;
-			return true;
-		}
-		
-		else {
-			document.getElementById('resize-fwd').disabled = true;
-			return false;
-		}
-	}
-	
+    return true;
   }
 
   /**
@@ -189,10 +252,25 @@
           uploadForm.classList.add('invisible');
           resizeForm.classList.remove('invisible');
 
+          if (setMaxWidth( leftPosition.value , Side.value ) > currentResizer._image.naturalWidth) {
+            document.getElementById( 'resize-fwd' ).disabled = true;
+          }
+          else {
+            if (setMaxHeight( topPosition.value , Side.value ) > currentResizer._image.naturalHeight) {
+              document.getElementById( 'resize-fwd' ).disabled = true;
+            }
+            else {
+              document.getElementById( 'resize-fwd' ).disabled = false;
+            }
+          }
+
           hideMessage();
         };
 
         fileReader.readAsDataURL(element.files[0]);
+
+
+
       } else {
         // Показ сообщения об ошибке, если загружаемый файл, не является
         // поддерживаемым изображением.
@@ -224,9 +302,9 @@
   resizeForm.onsubmit = function(evt) {
     evt.preventDefault();
 
+
     if (resizeFormIsValid()) {
       filterImage.src = currentResizer.exportImage().src;
-
       resizeForm.classList.add('invisible');
       filterForm.classList.remove('invisible');
     }
@@ -287,3 +365,6 @@
   cleanupResizer();
   updateBackground();
 })();
+
+
+
