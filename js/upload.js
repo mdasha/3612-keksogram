@@ -117,7 +117,7 @@
   /*Высота обрезаемой картинки*/
   var PicHeight = setMaxHeight ( topPosition.value , Side.value );
 
-/* Отливливаем значение поля слева+сторона и слева+сторона при изменении поля сторона*/
+/* Отливливаем значение поля слева+сторона и сверху+сторона при изменении поля сторона*/
   Side.oninput = function() {
     if (setMaxWidth ( leftPosition.value , Side.value ) > currentResizer._image.naturalWidth) {
       document.getElementById('resize-fwd').disabled = true;
@@ -132,7 +132,7 @@
     }
     }
 
-  /* Отливливаем значение поля слева+сторона и слева+сторона при изменении поля слева*/
+  /* Отливливаем значение поля слева+сторона и сверху+сторона при изменении поля слева*/
   leftPosition.oninput = function () {
     if (setMaxWidth( leftPosition.value , Side.value ) > currentResizer._image.naturalWidth) {
       document.getElementById( 'resize-fwd' ).disabled = true;
@@ -148,7 +148,7 @@
     }
   }
 
-  /* Отливливаем значение поля сверху+сторона и слева+сторона при изменении поля слева*/
+  /* Отливливаем значение поля сверху+сторона и слева+сторона при изменении поля сверху*/
   topPosition.oninput = function () {
     if (setMaxHeight( topPosition.value , Side.value ) > currentResizer._image.naturalHeight) {
       document.getElementById( 'resize-fwd' ).disabled = true;
