@@ -88,7 +88,7 @@
   var resizeForm = document.forms['upload-resize'];
 
 
-  var leftPosition
+  var leftPosition;
   leftPosition = resizeForm['resize-x'];
 
   /*Проверка, заполнено ли поле LeftPosition и его обнуление, если оно не заполнено*/
@@ -109,7 +109,7 @@
 
   /* Проверка, заполнено ли поле Side и его обнуление, если оно не заполнено*/
   if (Side.value === "") {
-   Side.value = 0;
+    Side.value = 0;
   }
   /*Ширина обрезаемой картинки*/
   var PicWidth = setMaxWidth ( leftPosition.value , Side.value );
@@ -117,7 +117,7 @@
   /*Высота обрезаемой картинки*/
   var PicHeight = setMaxHeight ( topPosition.value , Side.value );
 
-/* Отливливаем значение поля слева+сторона и сверху+сторона при изменении поля сторона*/
+  /* Отливливаем значение поля слева+сторона и сверху+сторона при изменении поля сторона*/
   Side.oninput = function() {
     if (setMaxWidth ( leftPosition.value , Side.value ) > currentResizer._image.naturalWidth) {
       document.getElementById('resize-fwd').disabled = true;
@@ -130,7 +130,7 @@
         document.getElementById( 'resize-fwd' ).disabled = false;
       }
     }
-    }
+  };
 
   /* Отливливаем значение поля слева+сторона и сверху+сторона при изменении поля слева*/
   leftPosition.oninput = function () {
@@ -146,7 +146,7 @@
         document.getElementById( 'resize-fwd' ).disabled = false;
       }
     }
-  }
+  };
 
   /* Отливливаем значение поля сверху+сторона и слева+сторона при изменении поля сверху*/
   topPosition.oninput = function () {
@@ -161,8 +161,7 @@
         document.getElementById( 'resize-fwd' ).disabled = false;
       }
     }
-  }
-
+  };
 
   function resizeFormIsValid() {
     return true;
